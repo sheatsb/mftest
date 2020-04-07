@@ -1,0 +1,479 @@
+schema {
+  query: query_root
+  mutation: mutation_root
+  subscription: subscription_root
+}
+
+# expression to compare columns of type Boolean. All fields are combined with logical 'AND'.
+input Boolean_comparison_exp {
+  _eq: Boolean
+  _gt: Boolean
+  _gte: Boolean
+  _in: [Boolean!]
+  _is_null: Boolean
+  _lt: Boolean
+  _lte: Boolean
+  _neq: Boolean
+  _nin: [Boolean!]
+}
+
+# mutation root
+type mutation_root {
+  # delete data from the table: "recipients"
+  delete_recipients(
+    # filter the rows which have to be deleted
+    where: recipients_bool_exp!
+  ): recipients_mutation_response
+
+  # insert data into the table: "recipients"
+  insert_recipients(
+    # the rows to be inserted
+    objects: [recipients_insert_input!]!
+
+    # on conflict condition
+    on_conflict: recipients_on_conflict
+  ): recipients_mutation_response
+
+  # update data of the table: "recipients"
+  update_recipients(
+    # sets the columns of the filtered rows to the given values
+    _set: recipients_set_input
+
+    # filter the rows which have to be updated
+    where: recipients_bool_exp!
+  ): recipients_mutation_response
+}
+
+# column ordering options
+enum order_by {
+  # in the ascending order, nulls last
+  asc
+
+  # in the ascending order, nulls first
+  asc_nulls_first
+
+  # in the ascending order, nulls last
+  asc_nulls_last
+
+  # in the descending order, nulls first
+  desc
+
+  # in the descending order, nulls first
+  desc_nulls_first
+
+  # in the descending order, nulls last
+  desc_nulls_last
+}
+
+# query root
+type query_root {
+  # fetch data from the table: "recipients"
+  recipients(
+    # distinct select on columns
+    distinct_on: [recipients_select_column!]
+
+    # limit the number of rows returned
+    limit: Int
+
+    # skip the first n rows. Use only with order_by
+    offset: Int
+
+    # sort the rows by one or more columns
+    order_by: [recipients_order_by!]
+
+    # filter the rows returned
+    where: recipients_bool_exp
+  ): [recipients!]!
+
+  # fetch aggregated fields from the table: "recipients"
+  recipients_aggregate(
+    # distinct select on columns
+    distinct_on: [recipients_select_column!]
+
+    # limit the number of rows returned
+    limit: Int
+
+    # skip the first n rows. Use only with order_by
+    offset: Int
+
+    # sort the rows by one or more columns
+    order_by: [recipients_order_by!]
+
+    # filter the rows returned
+    where: recipients_bool_exp
+  ): recipients_aggregate!
+
+  # fetch data from the table: "recipients" using primary key columns
+  recipients_by_pk(recipient_id: uuid!): recipients
+}
+
+# columns and relationships of "recipients"
+type recipients {
+  accepts_terms: Boolean!
+  cashapp_name: String
+  email: String!
+  field_medium: String!
+  impact_statement: String!
+  is_active: Boolean!
+  name: String!
+  paypal_email: String
+  recipient_id: uuid!
+  submit_datetime: timestamptz!
+  updated_at: timestamptz!
+  venmo_name: String
+}
+
+# aggregated selection of "recipients"
+type recipients_aggregate {
+  aggregate: recipients_aggregate_fields
+  nodes: [recipients!]!
+}
+
+# aggregate fields of "recipients"
+type recipients_aggregate_fields {
+  count(columns: [recipients_select_column!], distinct: Boolean): Int
+  max: recipients_max_fields
+  min: recipients_min_fields
+}
+
+# order by aggregate values of table "recipients"
+input recipients_aggregate_order_by {
+  count: order_by
+  max: recipients_max_order_by
+  min: recipients_min_order_by
+}
+
+# input type for inserting array relation for remote table "recipients"
+input recipients_arr_rel_insert_input {
+  data: [recipients_insert_input!]!
+  on_conflict: recipients_on_conflict
+}
+
+# Boolean expression to filter rows from the table "recipients". All fields are combined with a logical 'AND'.
+input recipients_bool_exp {
+  _and: [recipients_bool_exp]
+  _not: recipients_bool_exp
+  _or: [recipients_bool_exp]
+  accepts_terms: Boolean_comparison_exp
+  cashapp_name: String_comparison_exp
+  email: String_comparison_exp
+  field_medium: String_comparison_exp
+  impact_statement: String_comparison_exp
+  is_active: Boolean_comparison_exp
+  name: String_comparison_exp
+  paypal_email: String_comparison_exp
+  recipient_id: uuid_comparison_exp
+  submit_datetime: timestamptz_comparison_exp
+  updated_at: timestamptz_comparison_exp
+  venmo_name: String_comparison_exp
+}
+
+# unique or primary key constraints on table "recipients"
+enum recipients_constraint {
+  # unique or primary key constraint
+  recipients_cashapp_name_key
+
+  # unique or primary key constraint
+  recipients_email_key
+
+  # unique or primary key constraint
+  recipients_paypal_email_key
+
+  # unique or primary key constraint
+  recipients_pkey
+
+  # unique or primary key constraint
+  recipients_venmo_name_key
+}
+
+# input type for inserting data into table "recipients"
+input recipients_insert_input {
+  accepts_terms: Boolean
+  cashapp_name: String
+  email: String
+  field_medium: String
+  impact_statement: String
+  is_active: Boolean
+  name: String
+  paypal_email: String
+  recipient_id: uuid
+  submit_datetime: timestamptz
+  updated_at: timestamptz
+  venmo_name: String
+}
+
+# aggregate max on columns
+type recipients_max_fields {
+  cashapp_name: String
+  email: String
+  field_medium: String
+  impact_statement: String
+  name: String
+  paypal_email: String
+  submit_datetime: timestamptz
+  updated_at: timestamptz
+  venmo_name: String
+}
+
+# order by max() on columns of table "recipients"
+input recipients_max_order_by {
+  cashapp_name: order_by
+  email: order_by
+  field_medium: order_by
+  impact_statement: order_by
+  name: order_by
+  paypal_email: order_by
+  submit_datetime: order_by
+  updated_at: order_by
+  venmo_name: order_by
+}
+
+# aggregate min on columns
+type recipients_min_fields {
+  cashapp_name: String
+  email: String
+  field_medium: String
+  impact_statement: String
+  name: String
+  paypal_email: String
+  submit_datetime: timestamptz
+  updated_at: timestamptz
+  venmo_name: String
+}
+
+# order by min() on columns of table "recipients"
+input recipients_min_order_by {
+  cashapp_name: order_by
+  email: order_by
+  field_medium: order_by
+  impact_statement: order_by
+  name: order_by
+  paypal_email: order_by
+  submit_datetime: order_by
+  updated_at: order_by
+  venmo_name: order_by
+}
+
+# response of any mutation on the table "recipients"
+type recipients_mutation_response {
+  # number of affected rows by the mutation
+  affected_rows: Int!
+
+  # data of the affected rows by the mutation
+  returning: [recipients!]!
+}
+
+# input type for inserting object relation for remote table "recipients"
+input recipients_obj_rel_insert_input {
+  data: recipients_insert_input!
+  on_conflict: recipients_on_conflict
+}
+
+# on conflict condition type for table "recipients"
+input recipients_on_conflict {
+  constraint: recipients_constraint!
+  update_columns: [recipients_update_column!]!
+  where: recipients_bool_exp
+}
+
+# ordering options when selecting data from "recipients"
+input recipients_order_by {
+  accepts_terms: order_by
+  cashapp_name: order_by
+  email: order_by
+  field_medium: order_by
+  impact_statement: order_by
+  is_active: order_by
+  name: order_by
+  paypal_email: order_by
+  recipient_id: order_by
+  submit_datetime: order_by
+  updated_at: order_by
+  venmo_name: order_by
+}
+
+# select columns of table "recipients"
+enum recipients_select_column {
+  # column name
+  accepts_terms
+
+  # column name
+  cashapp_name
+
+  # column name
+  email
+
+  # column name
+  field_medium
+
+  # column name
+  impact_statement
+
+  # column name
+  is_active
+
+  # column name
+  name
+
+  # column name
+  paypal_email
+
+  # column name
+  recipient_id
+
+  # column name
+  submit_datetime
+
+  # column name
+  updated_at
+
+  # column name
+  venmo_name
+}
+
+# input type for updating data in table "recipients"
+input recipients_set_input {
+  accepts_terms: Boolean
+  cashapp_name: String
+  email: String
+  field_medium: String
+  impact_statement: String
+  is_active: Boolean
+  name: String
+  paypal_email: String
+  recipient_id: uuid
+  submit_datetime: timestamptz
+  updated_at: timestamptz
+  venmo_name: String
+}
+
+# update columns of table "recipients"
+enum recipients_update_column {
+  # column name
+  accepts_terms
+
+  # column name
+  cashapp_name
+
+  # column name
+  email
+
+  # column name
+  field_medium
+
+  # column name
+  impact_statement
+
+  # column name
+  is_active
+
+  # column name
+  name
+
+  # column name
+  paypal_email
+
+  # column name
+  recipient_id
+
+  # column name
+  submit_datetime
+
+  # column name
+  updated_at
+
+  # column name
+  venmo_name
+}
+
+# expression to compare columns of type String. All fields are combined with logical 'AND'.
+input String_comparison_exp {
+  _eq: String
+  _gt: String
+  _gte: String
+  _ilike: String
+  _in: [String!]
+  _is_null: Boolean
+  _like: String
+  _lt: String
+  _lte: String
+  _neq: String
+  _nilike: String
+  _nin: [String!]
+  _nlike: String
+  _nsimilar: String
+  _similar: String
+}
+
+# subscription root
+type subscription_root {
+  # fetch data from the table: "recipients"
+  recipients(
+    # distinct select on columns
+    distinct_on: [recipients_select_column!]
+
+    # limit the number of rows returned
+    limit: Int
+
+    # skip the first n rows. Use only with order_by
+    offset: Int
+
+    # sort the rows by one or more columns
+    order_by: [recipients_order_by!]
+
+    # filter the rows returned
+    where: recipients_bool_exp
+  ): [recipients!]!
+
+  # fetch aggregated fields from the table: "recipients"
+  recipients_aggregate(
+    # distinct select on columns
+    distinct_on: [recipients_select_column!]
+
+    # limit the number of rows returned
+    limit: Int
+
+    # skip the first n rows. Use only with order_by
+    offset: Int
+
+    # sort the rows by one or more columns
+    order_by: [recipients_order_by!]
+
+    # filter the rows returned
+    where: recipients_bool_exp
+  ): recipients_aggregate!
+
+  # fetch data from the table: "recipients" using primary key columns
+  recipients_by_pk(recipient_id: uuid!): recipients
+}
+
+scalar timestamptz
+
+# expression to compare columns of type timestamptz. All fields are combined with logical 'AND'.
+input timestamptz_comparison_exp {
+  _eq: timestamptz
+  _gt: timestamptz
+  _gte: timestamptz
+  _in: [timestamptz!]
+  _is_null: Boolean
+  _lt: timestamptz
+  _lte: timestamptz
+  _neq: timestamptz
+  _nin: [timestamptz!]
+}
+
+scalar uuid
+
+# expression to compare columns of type uuid. All fields are combined with logical 'AND'.
+input uuid_comparison_exp {
+  _eq: uuid
+  _gt: uuid
+  _gte: uuid
+  _in: [uuid!]
+  _is_null: Boolean
+  _lt: uuid
+  _lte: uuid
+  _neq: uuid
+  _nin: [uuid!]
+}
+

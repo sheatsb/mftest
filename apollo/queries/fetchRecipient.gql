@@ -1,0 +1,9 @@
+query {
+  recipients(where: { is_active: { _eq: true } }) {
+    name
+    paypal_email
+    venmo_name
+    cashapp_name
+    impact_statement
+  }
+}
