@@ -1,8 +1,8 @@
 {
-  "name": "hasura-nuxtjs",
+  "name": "mf-data-load-test",
   "version": "1.0.0",
   "description": "My epic Nuxt.js project",
-  "author": "Praveen",
+  "author": "",
   "private": true,
   "scripts": {
     "dev": "nuxt",
