@@ -1,5 +1,5 @@
 query {
-  recipients(where: { is_active: { _eq: true } }) {
+  random_recipient {
     name
     paypal_email
     venmo_name
